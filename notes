@@ -4,3 +4,39 @@
 ==========================================================================================
 REST FRAMEWORK
 ==========================================================================================
+
+
+3. what is REST , and RESTAPI
+
+  CRUD
+  - create
+  - read
+  - update : put(complete update (all record update)) , Patch(selected feature update)
+  - delete
+
+4. RESTFRAMEWORK
+
+  - pip install djangorestframework
+
+5. study material
+
+6. serializer and serializer class :
+
+  Json: load and dump
+  serializer
+  deserializer
+
+7. serializer fields:
+
+  - charField
+  - IntegerField
+  - FloatField
+  - DecimalField
+  - Slug =Field
+  - emailField
+  - NullField
+  - ImageField etc..
+
+  core argument : label, validators, error_mesages, help, required, derfault, initial, style, read_only, write_only, allwoed_null, source..
+
+8. Deserializer:
