@@ -24,6 +24,7 @@ print(f"Status Code: {r.status_code}")
 print(f"Response Text: {r.text}")
 print(f"Headers: {r.headers}")
 print(f"{r.text}")
+
 # if r.text:
 #     print(f"JSON: {r.json()}")
 # else:

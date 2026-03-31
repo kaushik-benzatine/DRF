@@ -40,3 +40,11 @@ REST FRAMEWORK
   core argument : label, validators, error_mesages, help, required, derfault, initial, style, read_only, write_only, allwoed_null, source..
 
 8. Deserializer:
+
+  # user input_data(via api) -> serializer data -> python native data -> validation -> save to database
+
+9. CRUD: FBV , CBV
+
+  - gs3
+
+10.
