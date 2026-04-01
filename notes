@@ -1,50 +1,116 @@
 
 
 
-==========================================================================================
-REST FRAMEWORK
-==========================================================================================
+# ==========================================================================================
+# REST FRAMEWORK
+# ==========================================================================================
 
 
-3. what is REST , and RESTAPI
+# 3. what is REST , and RESTAPI
 
-  CRUD
-  - create
-  - read
-  - update : put(complete update (all record update)) , Patch(selected feature update)
-  - delete
+#   CRUD
+#   - create
+#   - read
+#   - update : put(complete update (all record update)) , Patch(selected feature update)
+#   - delete
 
-4. RESTFRAMEWORK
+# 4. RESTFRAMEWORK
 
-  - pip install djangorestframework
+#   - pip install djangorestframework
 
-5. study material
+# 5. study material
 
-6. serializer and serializer class :
+# 6. serializer and serializer class :
 
-  Json: load and dump
-  serializer
-  deserializer
+#   Json: load and dump
+#   serializer
+#   deserializer
 
-7. serializer fields:
+# 7. serializer fields:
 
-  - charField
-  - IntegerField
-  - FloatField
-  - DecimalField
-  - Slug =Field
-  - emailField
-  - NullField
-  - ImageField etc..
+#   - charField
+#   - IntegerField
+#   - FloatField
+#   - DecimalField
+#   - Slug =Field
+#   - emailField
+#   - NullField
+#   - ImageField etc..
 
-  core argument : label, validators, error_mesages, help, required, derfault, initial, style, read_only, write_only, allwoed_null, source..
+#   core argument : label, validators, error_mesages, help, required, derfault, initial, style, read_only, write_only, allwoed_null, source..
 
-8. Deserializer:
+# 8. Deserializer:
 
-  # user input_data(via api) -> serializer data -> python native data -> validation -> save to database
+#   # user input_data(via api) -> serializer data -> python native data -> validation -> save to database
 
-9. CRUD: FBV , CBV
+# 9. CRUD: FBV , CBV
 
-  - gs3
+#   - gs3
 
-10.
+# 10. Validation: gs4
+
+#   - field level validation : validate_<field_name>(self, value)
+#       class StudentSerializer(serializers.Serializer):
+#         name = serializers.CharField(max_length=100)
+#         age = serializers.IntegerField()
+#         roll = serializers.IntegerField()
+#         city = serializers.CharField(max_length=100)
+
+#         def validate_name(self, value):
+#           if len(value) < 2:
+#             raise serializers.ValidationError("Name must be at least 2 characters long.")
+#           return value
+
+#   - object level validation : validate(self, data)
+#         def validate(self, data):
+#           if data['age'] < 18 and data['city'].lower() == 'new york':
+#             raise serializers.ValidationError("Students under 18 cannot be from New York.")
+#           return data
+
+#   - validators : custom validation function
+#       def validate_even(value):
+#         if value % 2 != 0:
+#           raise serializers.ValidationError("This field must be an even number.")
+
+#       class StudentSerializer(serializers.Serializer):
+#         name = serializers.CharField(max_length=100)
+#         age = serializers.IntegerField(validators=[validate_even])
+#         roll = serializers.IntegerField()
+#         city = serializers.CharField(max_length=100)
+
+
+# 11. Model Serializer + Validation gs5
+
+#   - it will automatically create fields based on the model
+#   - it will automatically create create() and update() methods
+#   - it will automatically create validators based on the model field validators
+
+
+#   - validations are some in both case of serializer and model serializer but in model serializer we can also use model field validators which is not possible in serializer class
+
+# 12. FBV APIvew | gs6 :
+
+# - api_view allow to test the request from web swagger as be part of client remaining all things are same as function based view.
+
+# - also there is not need to get from request.body and parse it to python data we can directly get from request.data
+
+# - also here we could use Response directly instead of JsonResponse and we can also use status code from rest_framework instead of hardcoding it.
+
+
+  # - from rest_framework.decorators import api_view
+  #   @api_view(['GET', 'POST'])
+  #   def StudentAPIView(request):
+
+
+
+
+
+
+
+
+
+
+
+
+
+11. Authentication and Authorization

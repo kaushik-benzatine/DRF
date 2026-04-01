@@ -12,6 +12,26 @@ class StudentSerializer(serializers.Serializer):
       raise serializers.ValidationError("Name must be at least 2 characters long.")
     return value
 
+  def validate_age(self, value):
+    if value < 0:
+      raise serializers.ValidationError("Age must be a positive integer.")
+    return value
+
+  def validate_roll(self, value):
+    if value < 0:
+      raise serializers.ValidationError("Roll must be a positive integer.")
+    return value
+
+  def validate_city(self, value):
+    if len(value) < 2:
+      raise serializers.ValidationError("City must be at least 2 characters long.")
+    return value
+
+  def validate(self, data):
+    if data['age'] < 18 and data['city'].lower() == 'new york':
+      raise serializers.ValidationError("Students under 18 cannot be from New York.")
+    return data
+
   def create(self, validated_data):
     return Student.objects.create(**validated_data)
 
