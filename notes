@@ -103,6 +103,94 @@
 
 
 
+13. CBV APIView | gs7
+14. GenericAPIView and mixins | gs8
+
+    # - queryset
+    # - serializer_class
+    # - lookup_field
+    # - get_object()
+    # - get_serializer_class()
+    # - get_serializer_context()
+    # - get_serializer()
+    # - get_queryset()
+    # filter_queryset(self, queryset)
+    # paginate_queryset(self, queryset)
+
+    # mixin :
+    # ListModelMixin :
+        # class StudentAPIView(ListModelMixin, GenericAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+        #     def get(self, request, *args, **kwargs):
+        #       return self.list(request, *args, **kwargs)
+    # CreateModelMixin :
+        # class StudentAPIView(CreateModelMixin, GenericAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+        #     def post(self, request, *args, **kwargs):
+        #       return self.create(request, *args, **kwargs)
+    # RetrieveModelMixin :
+        # class StudentAPIView(RetrieveModelMixin, GenericAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+        #     def get(self, request, *args, **kwargs):
+        #       return self.retrieve(request, *args, **kwargs)
+    # UpdateModelMixin :
+        # class StudentAPIView(UpdateModelMixin, GenericAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+        #     def put(self, request, *args, **kwargs):
+        #       return self.update(request, *args, **kwargs)
+    # DestroyModelMixin :
+        # class StudentAPIView(DestroyModelMixin, GenericAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+        #     def delete(self, request, *args, **kwargs):
+        #       return self.destroy(request, *args, **kwargs)
+
+
+15. Concrete view classes | gs9
+
+    # - ListAPIView
+        # class StudentListAPIView(ListAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - CreateAPIView
+        # class StudentCreateAPIView(CreateAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - RetrieveAPIView
+        # class StudentRetriveAPIView(RetrieveAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - UpdateAPIView
+        # class StudentUpdateAPIView(UpdateAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - DestroyAPIView
+        # class StudentDeleteAPIView(DestroyAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - ListCreateAPIView
+        # class StudentListCreateAPIView(ListCreateAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - RetrieveUpdateAPIView
+        # class StudentRetriveUpdateAPIView(RetrieveUpdateAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
+
+    # - RetrieveUpdateDestroyAPIView
+        # class StudentRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+        #     queryset = Student.objects.all()
+        #     serializer_class = StudentSerializer
 
 
 
@@ -113,4 +201,23 @@
 
 
 
-11. Authentication and Authorization
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+16. Authentication and Permission | gs10
