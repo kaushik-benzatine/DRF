@@ -240,18 +240,72 @@
 # 18. Authentication and Permission | gs11
 
 
+    # Overview :
+
+    # Authentication :
+    # - Basic Authentication : username and password are sent in the header of the request in base64 encoding. It is not secure as the credentials are sent in plain text and can be easily decoded.
+    # - Session Authentication : a session is created after successful authentication and is used to maintain the user's state.
+    # - Token Authentication : a token is generated after successful authentication and is sent in the header of each subsequent request.
+    # - JWT Authentication : a JSON Web Token is generated after successful authentication and is sent in the header of each subsequent request.
+    # - Remote User Authentication : it is used to authenticate users based on the remote user header sent by the web server.
+    # - Custom Authentication : we can create our own custom authentication class by inheriting from the BaseAuthentication class and implementing the authenticate() method.
 
 
+    # Permission :
+    # - AllowAny : it allows any user to access the view regardless of their authentication status.
+    # - IsAuthenticated : it allows only authenticated users to access the view.
+    # - IsAdminUser : it allows only admin users to access the view.
+    # - IsAuthenticatedOrReadOnly : it allows authenticated users to access the view for any request method, but unauthenticated users can only access the view for safe methods (GET, HEAD,
+
+    # - DjangoModelPermissions : it allows access to the view based on the user's model permissions.
+    # - DjangoModelPermissionsOrAnonReadOnly : it allows access to the view based on the
+    # - DjangoObjectPermissions : it allows access to the view based on the user's object permissions.
+    # - Custom Permission : we can create our own custom permission class by inheriting from the Base
 
 
+    # 3) token authentication : it store inside the DB in toekn table
 
+        # - INSTALLED_APPS = [
+        #     'rest_framework.authtoken',
+        # ]
 
+        # - Generate token for a user :
 
+            # 1) - usign admin panel,
+            # 2) - using shell command : python manage.py drf_create_token <username>,
+            # 3) - using API endpoint : /api-token-auth/ (you have to define this endpoint in the urls.py file)
+            # 4) - using signals : we can create a token for a user automatically when the user is created by using signals.
 
+    # 4) token authentication using signals :
+        # from django.conf import settings
+        # from django.db.models.signals import post_save
+        # from django.dispatch import receiver
+        # from rest_framework.authtoken.models import Token
 
+        # @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+        # def create_auth_token(sender, instance=None, created=False, **kwargs):
+        #     if created:
+        #         Token.objects.create(user=instance)
 
+    # 6th Custom Authentication :
 
+        # from rest_framework.authentication import BaseAuthentication
+        # from django.contrib.auth.models import User
+        # from rest_framework.exceptions import AuthenticationFailed
 
+        # class CustomAuthToken(BaseAuthentication):
+        # def authenticate(self, request):
+        #     username = request.GET.get('username')
+        #     if username is None:
+        #     return None
 
+        #     try:
+        #     user = User.objects.get(username=username)
+        #     return (user, None)
 
-16. Authentication and Permission | gs10
+        #     except User.DoesNotExist:
+        #     raise AuthenticationFailed('No such user')
+
+        #     return(user, None)
+
+    # JWT Authentication :
