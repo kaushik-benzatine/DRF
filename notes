@@ -309,3 +309,269 @@
         #     return(user, None)
 
     # JWT Authentication :
+
+        # from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+        # from rest_framework_simplejwt.views import TokenObtainPairView
+
+        # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+        # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+        # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
+        # SIMPLE_JWT = {
+        # 'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+        # 'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+        # 'ROTATE_REFRESH_TOKENS': False, # True for token rotation of refresh token
+        # 'BLACKLIST_AFTER_ROTATION': False,
+        # 'UPDATE_LAST_LOGIN': False,
+
+
+        # 'ALGORITHM': 'HS256',
+        # 'SIGNING_KEY': SECRET_KEY,
+        # 'VERIFYING_KEY': None,
+        # 'AUDIENCE': None,
+        # 'ISSUER': None,
+        # 'JWK_URL': None,
+        # 'LEEWAY': 0,
+
+        # 'AUTH_HEADER_TYPES': ('Bearer',),
+        # 'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+        # 'USER_ID_FIELD': 'id',
+        # 'USER_ID_CLAIM': 'user_id',
+        # 'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+        # 'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+        # 'TOKEN_TYPE_CLAIM': 'token_type',
+        # 'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+        # 'JTI_CLAIM': 'jti',
+        # }
+
+# 25. THROTTLING | 12: generate ID based on user IP
+
+    # - ScopedRateThrottle : it is used to limit the number of requests that can be made by a user in a specific time period.
+    # - UserRateThrottle : it is used to limit the number of requests that can be made by a user in a specific time period.
+    # - AnonRateThrottle : it is used to limit the number of requests that can be made by a user in a specific time period.
+    # - SimpleRateThrottle : it is used to limit the number of requests that can be made by a user in a specific time period.
+
+    # You can define in Gloobal
+
+    # REST_FRAMEWORK = {
+    #     'DEFAULT_THROTTLE_RATES': {
+    #     'anon' :'3/day',
+    #     'user': '5/hour'
+    #     }
+    # }
+
+    # class StudentAPIView(viewsets.ModelViewSet):
+    # queryset = Student.objects.all()
+    # serializer_class = StudentSerializer
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+    # throttle_classes = [NameRateThrottle, AnonRateThrottle]
+
+
+    # # when all operation are different
+    # class StudentListAPIView(ListAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     throttle_classes = [ScopedRateThrottle]
+    #     throttle_scope = 'viewstudent'
+
+    # class StudentCreateAPIView(CreateAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     throttle_classes = [ScopedRateThrottle]
+    #     throttle_scope = 'createupdatedeletestudent'
+
+    # class StudentRetriveAPIView(RetrieveAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     throttle_classes = [ScopedRateThrottle]
+    #     throttle_scope = 'viewstudent'
+    # class StudentUpdateAPIView(UpdateAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     throttle_classes = [ScopedRateThrottle]
+    #     throttle_scope = 'createupdatedeletestudent'
+
+    # class StudentDeleteAPIView(DestroyAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     throttle_classes = [ScopedRateThrottle]
+    #     throttle_scope = 'createupdatedeletestudent'
+
+
+# =========================================================================================================================
+
+# 1) search
+# 2) filter
+# 3) order
+
+# 26. Filter | Queryset() | gs12
+
+
+    # class StudentList(ListAPIView):
+    # queryset = Student.objects.all()
+    # # queryset = Student.objects.filter(name="Hashnode")
+    # serializer_class = StudentSerializer
+
+    # def get_queryset(self):
+    #     return Student.objects.filter(name="Hashnode")
+    #     # if i want to pass only current user data not related to other
+    #     # return Student.objects.filter(passed_by=self.request.user)
+
+
+    # === DJANGO FILTER ===
+
+    # For Global
+
+    # in settings.py
+    # INSTALLED_APPS = [
+    #     'django_filters',
+    # ]
+
+    # REST_FRAMEWORK = {
+    #     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    # }
+
+    # for Induvidual
+
+    # class StudentList(ListAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     filter_backends = [DjangoFilterBackend]
+    #     filterset_fields = ['passed_by', 'age', 'name']
+
+
+# 27. Search filter
+
+
+#  in settings.py
+    # INSTALLED_APPS = [
+    #     'django_filters',
+    #     'rest_framework',
+    # ]
+
+    # from rest_framework.filters import SearchFilter
+
+     # class StudentList(ListAPIView):
+        # queryset = Student.objects.all()
+        # serializer_class = StudentSerializer
+        # filter_backends = [SearchFilter]
+
+        # search_fields = ['name', 'age']
+        # search_fields = ['^name', 'age'] # ^ means start with
+        # search_fields = ['?name', 'age'] # ? means end with
+        # search_fields = ['=name', 'age'] # = means exact
+        # search_fields = ['~name', 'age'] # ~ means contains
+        # search_fields = ['@name', 'age'] # @ means iexact
+        # search_fields = ['$name', 'age'] # $ means regex
+
+    # To change the 'search' key in URL for search: add this thigns in settings
+
+    # REST_FRAMEWORK = {
+    #     'SEARCH_PARAM': 'q'
+    # }
+
+
+# 28. Ordering Filter
+
+    #  in settings.py
+    # INSTALLED_APPS = [
+    #     'django_filters',
+    #     'rest_framework',
+    # ]
+
+    # from rest_framework.filters import SearchFilter
+
+     # class StudentList(ListAPIView):
+        # queryset = Student.objects.all()
+        # serializer_class = StudentSerializer
+        # filter_backends = [OrderingFilter]
+
+        # ordering_fields = ['name', 'age']
+        # ordering_fields = ['-name', '-age']
+
+# ==========================================================================
+
+# 1) pagination
+# 2) limit offset
+# 3) cursor
+
+# 29. Pagination
+
+    # == GLOBAL ==
+
+    # REST_FRAMEWORK = {
+    #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #     'PAGE_SIZE': 2
+    # }
+
+    # == INDIVIDUAL ==
+
+    # from rest_framework.pagination import PageNumberPagination
+    # class CustomPagination(PageNumberPagination):
+    #     page_size = 2
+    #     page_query_param = 'p'
+    #     page_size_query_param = 'page_size' # client can change the page size # ?p=1&page_size=20 : on page 1st show 20 data
+
+    #     max_page_size = 8 # even if client ask for more than 8 it will show 8
+    #     last_page_strings = ['end'] # if end is in url it will show last page
+
+    # class StudentList(ListAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     pagination_class = CustomPagination
+
+# 30. Limit Offset : offset mean from where we want to start
+
+    # == GLOBAL ==
+
+    # REST_FRAMEWORK = {
+    #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    #     'PAGE_SIZE': 2
+    # }
+
+    # == INDIVIDUAL ==
+
+    # from rest_framework.pagination import LimitOffsetPagination
+    # class Customoffsetpagination(LimitOffsetPagination):
+    #     default_limit = 2 # default limit, if not provided by client it will show 2
+    #     max_limit = 8
+    #     offset_query_param = 'offset'
+    #     limit_query_param = 'limit'
+    #     offset_query_description = 'Number of initial results to skip'
+    #     limit_query_description = 'Number of results to return'
+
+
+    # class StudentList(ListAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     pagination_class = LimitOffsetPagination
+
+
+# 31. Cursor pagination : it's like limit offset but it's more efficient, it require inputs of next and previous page and return data of next and previous page
+
+    # == GLOBAL ==
+
+    # REST_FRAMEWORK = {
+    #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    #     'PAGE_SIZE': 2
+    # }
+
+    # == INDIVIDUAL ==
+
+    # from rest_framework.pagination import CursorPagination
+    # class Customcursorpagination(CursorPagination):
+    #     page_size = 2
+    #     ordering = 'name'
+    #     cursor_query_param = 'c'
+    #     page_query_param = 'p'
+    #     max_page_size = 8
+
+    # class StudentList(ListAPIView):
+    #     queryset = Student.objects.all()
+    #     serializer_class = StudentSerializer
+    #     pagination_class = CursorPagination
+
+# 32. Serializer Relation
